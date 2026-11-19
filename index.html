@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+  <style>
+    .panel {
+      width: 300px;
+      height: 50px;
+      background: rgb(180, 16, 178);
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .resize {
+      width: 10px;
+      height: 100%;
+      background: rgb(106, 4, 129);
+      position: absolute;
+      right: 0;
+      top: 0;
+      cursor: ew-resize;
+      touch-action: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="panel">
+    <div class="resize"></div>
+  </div>
+
+  <script>
+    const panel = document.querySelector('.panel');
+    const resize = document.querySelector('.resize');
+
+    let startX;
+    let startWidth;
+
+    resize.addEventListener('pointerdown', function(e) {
+      startX = e.clientX;
+      startWidth = panel.offsetWidth;
+      resize.setPointerCapture(e.pointerId);
+    });
+
+    resize.addEventListener('pointermove', function(e) {
+      if (!resize.hasPointerCapture(e.pointerId)) return;
+      let newWidth = startWidth + (e.clientX - startX);
+      panel.style.width = Math.max(100, newWidth) + 'px';
+    });
+
+    resize.addEventListener('pointerup', function(e) {
+      resize.releasePointerCapture(e.pointerId);
+    });
+  </script>
+
+</body>
+</html>
